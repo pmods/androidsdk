@@ -1,10 +1,7 @@
-class androidsdk {
-
-    # User to install android SDK under
-    $devusr   = "amarks"
-
-    # Group to own android SDK dir
+class androidsdk (
+    $devusr   = "amarks",
     $devgrp   = "amarks"
+){
 
     #Default Path
     $defpath   = "/bin:/usr/bin:/sbin:/usr/sbin"
