@@ -32,7 +32,7 @@ class androidsdk (
     }
 
     # Extract android SDK
-    exec { 'extract-androidsdk':
+    exec { 'asdk-extract':
         command => "unzip /home/$devusr/distfiles/$asdk_version.zip",
         user    => $devusr,
         cwd     => "/home/$devusr",
@@ -41,5 +41,13 @@ class androidsdk (
         require => Exec['fetch-androidsdk']
     }
 
-
+    # Move SDK to ~/AndroidSDK
+    exec { 'asdk-move':
+        command => "rm -rf AndroidSDK ; mv /$android_version/sdk ./AndroidSDK",
+        user    => $devusr,
+        cwd     => "/home/$devusr",
+        path    => $defpath,
+        unless  => "ls -d /home/$devusr/AndroidSDK",
+        require => Exec['asdk-extract']
+    }
 }
