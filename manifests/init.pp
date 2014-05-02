@@ -23,11 +23,21 @@ class androidsdk (
 
     # Download android SDK
     exec { 'fetch-androidsdk':
-        command => "wget $asdk_loc/$asdk_version.zip",
+        command => "curl -o $asdk_version.zip $asdk_loc/$asdk_version.zip",
         user    => $devusr,
         cwd     => "/home/$devusr/distfiles",
         path    => $defpath,
         unless  => "ls /home/$devusr/distfiles/$asdk_version.zip",
+        require => File['distdir']
+    }
+
+    # Extract android SDK
+    exec { 'extract-androidsdk':
+        command => "unzip ~/distfiles/$asdk_version.zip",
+        user    => $devusr,
+        cwd     => "/home/$devusr",
+        path    => $defpath,
+        unless  => "ls -d /home/$devusr/$asdk_version",
         require => File['distdir']
     }
 }
