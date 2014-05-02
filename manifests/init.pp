@@ -12,6 +12,19 @@ class androidsdk (
     #Android SDK file name
     $asdk_version = "adt-bundle-linux-x86_64-20140321"
 
+    case $::operatingsystem {
+        freebsd: {
+            $pkg_dep = ['awt' ],
+            $pkg_provider = pkgng
+        }
+    }
+
+    # Install dependancies
+    pkg { $pkg_dep:
+        ensure   => installed,
+        provider => $pkg_provider
+    }
+
     # Make distfiles directory
     file { 'distdir':
         path => "/home/$devusr/distfiles",
