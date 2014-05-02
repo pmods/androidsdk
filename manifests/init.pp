@@ -20,7 +20,7 @@ class androidsdk (
     }
 
     # Install dependancies
-    pkg { $pkg_dep:
+    package { $pkg_dep:
         ensure   => installed,
         provider => $pkg_provider
     }
