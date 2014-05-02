@@ -4,7 +4,7 @@ class androidsdk (
 ){
 
     #Default Path
-    $defpath   = "/bin:/usr/bin:/sbin:/usr/sbin"
+    $defpath   = "/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin"
 
     #Android SDK Location
     $asdk_loc  = "http://dl.google.com/android/adt/22.6.2"
