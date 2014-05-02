@@ -43,7 +43,7 @@ class androidsdk (
 
     # Move SDK to ~/AndroidSDK
     exec { 'asdk-move':
-        command => "rm -rf AndroidSDK ; mv /$android_version/sdk ./AndroidSDK",
+        command => "rm -rf AndroidSDK ; mv $asdk_version/sdk ./AndroidSDK",
         user    => $devusr,
         cwd     => "/home/$devusr",
         path    => $defpath,
