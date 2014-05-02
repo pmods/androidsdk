@@ -14,7 +14,7 @@ class androidsdk (
 
     case $::operatingsystem {
         freebsd: {
-            $pkg_dep = ['awt' ],
+            $pkg_dep = ['swt' ],
             $pkg_provider = pkgng
         }
     }
