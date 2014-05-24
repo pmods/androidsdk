@@ -4,7 +4,7 @@ class androidsdk (
 ){
 
     #Default Path
-    $defpath   = "/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin"
+    $defpath   = "/home/$devusr/AndroidSDK/tools:/home/$devusr/AndroidSDK/platform-tools:/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin"
 
     #Android SDK Location
     $asdk_loc  = "http://dl.google.com/android/adt/22.6.2"
@@ -16,14 +16,15 @@ class androidsdk (
         freebsd: {
             $pkg_dep = ['swt' ]
             $pkg_provider = pkgng
+
+            # Install dependancies
+            package { $pkg_dep:
+                ensure   => installed,
+                provider => $pkg_provider
+            }
         }
     }
 
-    # Install dependancies
-    package { $pkg_dep:
-        ensure   => installed,
-        provider => $pkg_provider
-    }
 
     # Make distfiles directory
     file { 'distdir':
