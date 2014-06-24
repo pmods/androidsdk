@@ -1,3 +1,5 @@
 forge "http://forge.puppetlabs.com"
 
-mod "zleslie/pkgng"
+mod "pmods/devusr",
+    :git => "git@github.com:pmods/devusr.git"
+

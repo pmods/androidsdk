@@ -1,7 +1,9 @@
-class androidsdk (
-    $devusr   = "amarks",
-    $devgrp   = "amarks"
-){
+include devusr
+
+class androidsdk (){
+
+    $devusr = $devusr::username
+    $devgrp = $devusr::devgroup
 
     #Default Path
     $defpath   = "/home/$devusr/AndroidSDK/tools:/home/$devusr/AndroidSDK/platform-tools:/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin"
