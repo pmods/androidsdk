@@ -1,6 +1,6 @@
 include devusr
 
-class androidsdk (){
+class AndroidSDK (){
 
     $devusr = $devusr::username
     $devgrp = $devusr::devgroup
