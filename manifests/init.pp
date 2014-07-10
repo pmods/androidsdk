@@ -16,6 +16,10 @@ class androidsdk  {
 
     $modpath = "puppet:///modules/androidsdk"
 
+    package { 'glibc.i686':
+        ensure => installed
+    }
+
     group { 'android-group':
         name => 'android',
         ensure => 'present',
@@ -29,7 +33,6 @@ class androidsdk  {
         path    => $defpath,
         unless  => "ls /root/$asdk_version.tgz",
         timeout => 0,
-        require => File['distdir']
     }
 
     # Extract android SDK
