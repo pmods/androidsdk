@@ -14,47 +14,58 @@ class androidsdk  {
     #Android SDK file name
     $asdk_version = "android-sdk_r23.0.2-linux"
 
-    case $::operatingsystem {
-        freebsd: {
-            $pkg_dep = ['swt' ]
-            $pkg_provider = pkgng
+    $modpath = "puppet:///modules/androidsdk"
 
-            # Install dependancies
-            package { $pkg_dep:
-                ensure   => installed,
-                provider => $pkg_provider
-            }
-        }
-    }
-
-
-    # Make distfiles directory
-    file { 'distdir':
-        path => "/home/$devusr/distfiles",
-        ensure => directory,
-        mode => 0755,
-        owner => $devusr,
-        group => $devusr
+    group { 'android-group':
+        name => 'android',
+        ensure => 'present',
     }
 
     # Download android SDK
     exec { 'fetch-androidsdk':
         command => "curl -o $asdk_version.tgz $asdk_loc/$asdk_version.tgz",
-        user    => $devusr,
-        cwd     => "/home/$devusr/distfiles",
+        user    => 'root',
+        cwd     => "/root/",
         path    => $defpath,
-        unless  => "ls /home/$devusr/distfiles/$asdk_version.tgz",
+        unless  => "ls /root/$asdk_version.tgz",
         timeout => 0,
         require => File['distdir']
     }
 
     # Extract android SDK
     exec { 'asdk-extract':
-        command => "tar xzf /home/$devusr/distfiles/$asdk_version.tgz",
-        user    => $devusr,
-        cwd     => "/home/$devusr",
+        command => "tar xzf /root/$asdk_version.tgz",
+        user    => 'root',
+        cwd     => "/opt",
         path    => $defpath,
-        #unless  => "ls -d /home/$devusr/$asdk_version",
+        unless  => "ls -d /opt/android-sdk-linux",
         require => Exec['fetch-androidsdk']
+    }
+
+    exec { 'asdk-chgrp':
+        command => "chgrp -R android /opt/android-sdk-linux",
+        user    => 'root',
+        cwd     => "/opt",
+        path    => $defpath,
+        require => [
+            Exec['asdk-extract'],
+            Group['android-group']
+        ]
+    }
+
+    exec { 'asdk-gstick':
+        command => 'find /opt/android-sdk-linux -type d -exec chmod g+s {} \;',
+        user    => 'root',
+        cwd     => "/opt",
+        path    => $defpath,
+        require => Exec['asdk-chgrp']
+    }
+
+    file { 'asdk-env':
+        path => '/etc/profile.d/asdk.sh',
+        owner => 'root',
+        group => 'root',
+        mode => 0644,
+        source => "$modpath/asdk.sh"
     }
 }
