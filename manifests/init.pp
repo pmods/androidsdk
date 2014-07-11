@@ -16,7 +16,13 @@ class androidsdk  {
 
     $modpath = "puppet:///modules/androidsdk"
 
-    package { 'glibc.i686':
+    $packages = [
+        'glibc.i686',
+        'zlib.i686',
+        'libstdc++.i686',
+    ]
+
+    package { $packages:
         ensure => installed
     }
 
