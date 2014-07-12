@@ -1,6 +1,6 @@
 class androidsdk  (
-    $asdk_loc  = "http://dl.google.com/android"
-    $asdk_version = "android-sdk_r23.0.2-linux"
+    $asdk_loc  = "http://dl.google.com/android",
+    $asdk_version = "android-sdk_r23.0.2-linux",
 ){
 
     #Default Path
