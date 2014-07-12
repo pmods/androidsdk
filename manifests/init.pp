@@ -1,18 +1,10 @@
-include devusr
-
-class androidsdk  {
-
-    $devusr = $devusr::username
-    $devgrp = $devusr::devgroup
+class androidsdk  (
+    $asdk_loc  = "http://dl.google.com/android"
+    $asdk_version = "android-sdk_r23.0.2-linux"
+){
 
     #Default Path
-    $defpath   = "/home/$devusr/AndroidSDK/tools:/home/$devusr/AndroidSDK/platform-tools:/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin"
-
-    #Android SDK Location
-    $asdk_loc  = "http://dl.google.com/android"
-
-    #Android SDK file name
-    $asdk_version = "android-sdk_r23.0.2-linux"
+    $defpath   = "/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin"
 
     $modpath = "puppet:///modules/androidsdk"
 
