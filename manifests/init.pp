@@ -3,6 +3,8 @@ class androidsdk  (
     $asdk_version = "android-sdk_r23.0.2-linux",
 ){
 
+    $username = $devusr::username
+
     #Default Path
     $defpath   = "/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin"
 
@@ -54,6 +56,17 @@ class androidsdk  (
         ]
     }
 
+    exec { 'asdk-chmod':
+        command => "chmod -R g+rwX /opt/android-sdk-linux",
+        user    => 'root',
+        cwd     => "/opt",
+        path    => $defpath,
+        require => [
+            Exec['asdk-extract'],
+            Group['android-group']
+        ]
+    }
+
     exec { 'asdk-gstick':
         command => 'find /opt/android-sdk-linux -type d -exec chmod g+s {} \;',
         user    => 'root',
@@ -68,5 +81,14 @@ class androidsdk  (
         group => 'root',
         mode => 0644,
         source => "$modpath/asdk.sh"
+    }
+
+    exec { 'devusr-access':
+        command => "gpasswd -a $username android",
+        user    => 'root',
+        cwd     => "/root",
+        path    => $defpath,
+        unless  => "groups $username | grep android",
+        require => Exec['asdk-gstick']
     }
 }
